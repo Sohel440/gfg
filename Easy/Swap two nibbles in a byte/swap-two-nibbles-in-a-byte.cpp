@@ -8,9 +8,13 @@ class Solution {
   public:
     int swapNibbles(int n) {
         // code here
-           int left = n>>4;
-        int right = n & (15);
-        return (right*16 + left);
+        
+        int a = (n & 0x0F) << 4; // last digit from the last
+        int b = (n & 0xF0)  >> 4; // first digit from the first
+        
+       // int s= (1 << 2); cout << s << endl;
+        return a+b;
+        
     }
 };
 
