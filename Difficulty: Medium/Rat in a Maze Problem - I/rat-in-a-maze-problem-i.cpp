@@ -10,44 +10,41 @@ using namespace std;
 
 class Solution {
   public:
-  vector<string> ans;
-    
-    bool isok(int i, int j, vector<vector<int>> &mat) {
-        return i >= 0 && j >= 0 && i < mat.size() && j < mat[0].size() && mat[i][j] == 1;
-    }
-    
-    void solve(int i, int j, vector<vector<int>> &mat, string temp, vector<vector<int>> &vis) {
-        int n = mat.size();
+ vector<string> ans;
+    bool isok(int i , int j ,vector<vector<int>> &mat){
         
-        // Base case: if we reach the bottom-right corner
-        if (i >= n - 1 && j >= n - 1) {
+        return i >=0 && j >=0 && i <mat.size() && j <mat.size() && mat[i][j]==1;
+    }
+    void solve(int i , int j , vector<vector<int>> &mat , string temp , vector<vector<int>> &vis){
+        
+        if(i== mat.size()-1 && j ==mat.size()-1){
             ans.push_back(temp);
             return;
+            
         }
         
         vis[i][j] = 1;
         
-        // Move left
-        if (isok(i, j - 1, mat) && !vis[i][j - 1]) {
-            solve(i, j - 1, mat, temp + "L", vis);
+        if( isok(i , j-1, mat) && !vis[i][j-1]){
+            
+            solve(i , j-1 , mat , temp+"L", vis);
+            
         }
-        
-        // Move right
-        if (isok(i, j + 1, mat) && !vis[i][j + 1]) {
-            solve(i, j + 1, mat, temp + "R", vis);
+        if(  isok(i , j+1 , mat)&&!vis[i][j+1]){
+            
+            solve(i , j+1 , mat , temp+"R",vis);
         }
-        
-        // Move down
-        if (isok(i + 1, j, mat) && !vis[i + 1][j]) {
-            solve(i + 1, j, mat, temp + "D", vis);
+        if( isok(i+1 , j , mat)&&!vis[i+1][j] ){
+            
+            solve(i+1 , j , mat , temp+"D",vis);
         }
-        
-        // Move up
-        if (isok(i - 1, j, mat) && !vis[i - 1][j]) {
-            solve(i - 1, j, mat, temp + "U", vis);
+        if( isok(i-1 , j , mat) &&!vis[i-1][j]){
+            
+            solve(i-1 , j , mat , temp+"U",vis);
         }
-        
         vis[i][j] = 0;
+        
+        
     }
     vector<string> findPath(vector<vector<int>> &mat) {
         // Your code goes here
