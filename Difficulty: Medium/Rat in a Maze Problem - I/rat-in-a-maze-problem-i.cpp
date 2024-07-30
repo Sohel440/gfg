@@ -8,74 +8,59 @@ using namespace std;
 // } Driver Code Ends
 // User function template for C++
 
-class Solution{
-    public:
-    vector<string> ans;
-    int N;
-    bool isok(int i , int j , vector<vector<int>> &m , vector<vector<bool>> &vis){
-        
-     
-        return i>=0 && j >=0 && i < m.size() && j < m.size() && m[i][j] == 1 && !vis[i][j];
-        
+class Solution {
+  public:
+  vector<string> ans;
+    
+    bool isok(int i, int j, vector<vector<int>> &mat) {
+        return i >= 0 && j >= 0 && i < mat.size() && j < mat[0].size() && mat[i][j] == 1;
     }
-    void solve(int i, int j , vector<vector<int>> &m , string temp , vector<vector<bool>> &vis){
+    
+    void solve(int i, int j, vector<vector<int>> &mat, string temp, vector<vector<int>> &vis) {
+        int n = mat.size();
         
-        if(i == N-1 && j ==N-1){
-            
+        // Base case: if we reach the bottom-right corner
+        if (i == n - 1 && j == n - 1) {
             ans.push_back(temp);
             return;
-            
         }
         
-       
-        vis[i][j] = true;
-        if(isok(i , j-1 , m , vis)){
-            
-            solve(i, j-1 ,  m , temp+'L', vis);
-            // vis[i][j-1] = false;
-            
+        vis[i][j] = 1;
+        
+        // Move left
+        if (isok(i, j - 1, mat) && !vis[i][j - 1]) {
+            solve(i, j - 1, mat, temp + "L", vis);
         }
         
-         if(isok(i , j+1 , m , vis)){
-             // vis[i][j+1] = true;
-            solve(i, j+1 ,  m , temp+'R', vis);
-           //  vis[i][j+1] = false;
-            
-        }
-         if(isok(i-1 , j , m , vis)){
-              //vis[i-1][j] = true;
-            solve(i-1, j ,  m , temp+'U', vis);
-             //vis[i-1][j] = false;
-            
-        }
-         if(isok(i +1 , j  , m , vis)){
-             // vis[i+1][j] = true;
-            solve(i+1, j ,  m , temp+'D', vis);
-              //  vis[i+1][j] = false;
-            
+        // Move right
+        if (isok(i, j + 1, mat) && !vis[i][j + 1]) {
+            solve(i, j + 1, mat, temp + "R", vis);
         }
         
-      vis[i][j] = false;
+        // Move down
+        if (isok(i + 1, j, mat) && !vis[i + 1][j]) {
+            solve(i + 1, j, mat, temp + "D", vis);
+        }
         
+        // Move up
+        if (isok(i - 1, j, mat) && !vis[i - 1][j]) {
+            solve(i - 1, j, mat, temp + "U", vis);
+        }
         
-        
+        vis[i][j] = 0;
     }
-    vector<string> findPath(vector<vector<int>> &m, int n) {
+    vector<string> findPath(vector<vector<int>> &mat) {
         // Your code goes here
-         // Check if the starting or ending positions are blocked
-    if (m[0][0] == 0 || m[n-1][n-1] == 0) {
-        return ans;
-    }
-        string temp;
-        N =n;
-        vector<vector<bool>> vis(n , vector<bool>(n , false));
-        solve(0 , 0 ,  m , temp ,vis);
-        return ans;
+        if (mat.empty() || mat[0][0] == 0 || mat[mat.size() - 1][mat.size() - 1] == 0)
+            return {};
         
+        string temp = "";
+        vector<vector<int>> vis(mat.size(), vector<int>(mat[0].size(), 0));
+        solve(0, 0, mat, temp, vis);
+        
+        return ans;
     }
 };
-
-    
 
 
 //{ Driver Code Starts.
@@ -86,19 +71,20 @@ int main() {
     while (t--) {
         int n;
         cin >> n;
-        vector<vector<int>> m(n, vector<int> (n,0));
+        vector<vector<int>> m(n, vector<int>(n, 0));
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 cin >> m[i][j];
             }
         }
         Solution obj;
-        vector<string> result = obj.findPath(m, n);
+        vector<string> result = obj.findPath(m);
         sort(result.begin(), result.end());
         if (result.size() == 0)
             cout << -1;
         else
-            for (int i = 0; i < result.size(); i++) cout << result[i] << " ";
+            for (int i = 0; i < result.size(); i++)
+                cout << result[i] << " ";
         cout << endl;
     }
     return 0;
