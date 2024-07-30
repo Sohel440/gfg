@@ -20,7 +20,7 @@ class Solution {
         int n = mat.size();
         
         // Base case: if we reach the bottom-right corner
-        if (i == n - 1 && j == n - 1) {
+        if (i >= n - 1 && j >= n - 1) {
             ans.push_back(temp);
             return;
         }
