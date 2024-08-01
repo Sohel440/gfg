@@ -12,62 +12,45 @@ class Solution {
         if (i >= n || j >= m) {
         return;
     }
-        // Traverse from left to right
-    // for (int col = j; col < m; ++col) {
-    //     ans.push_back(mat[i][col]);
-    // }
-    int col = j;
-    while(col < m ){
-        ans.push_back(mat[i][col]);
-        col++;
-    }
-    
-    
-    // Traverse from top to bottom
-    // for (int row = i + 1; row < n; ++row) {
-    //     ans.push_back(mat[row][m - 1]);
-    // }
-    
-    int row = i+1;
-    while( row < n){
-        ans.push_back(mat[row][m-1]);
-        row++;
-    }
-    
-    
-    // Traverse from right to left
-    // if ((n - 1) != i) { // Avoid duplicate row
-    //     for (int col = m - 2; col >= j; --col) {
-    //         ans.push_back(mat[n - 1][col]);
-    //     }
-    // }
-    
-    if(n-1 != i){
+        int pi = i;
         
-        int col = m-2;
-        while(col >=j){
-            ans.push_back(mat[n-1][col]);
-            col--;
+        int pj = j;
+        int s = i;
+        int e = j;
+        
+        while(e < m ){
+            ans.push_back(mat[s][e]);
+            e++;
             
         }
-    }
-    
-    // Traverse from bottom to top
-    // if ((m - 1) != j) { // Avoid duplicate column
-    //     for (int row = n - 2; row > i; --row) {
-    //         ans.push_back(mat[row][j]);
-    //     }
-    // }
-    
-    if(m-1 != j){
-        int row = n-2;
-        while(row > i){
-            ans.push_back(mat[row][j]);
-            row--;
+        
+        s = i+1;
+        
+       // cout << e << endl;
+        while(s < n){
+            ans.push_back(mat[s][m-1]);
+            s++;
+        }
+        
+        
+  
+        if(n-1 != i){
+            e = m-2;
+        while(e >= j ){
+            ans.push_back(mat[n-1][e]);
+            e--;
             
         }
-    }
-
+        }
+        
+        if(m-1 != j){
+        s = n-2;
+        while(s > i){
+            ans.push_back(mat[s][j]);
+            s--;
+            
+        }
+        }
         
         solve(i+ 1 , j+ 1 , n-1 , m-1 , mat);
         
