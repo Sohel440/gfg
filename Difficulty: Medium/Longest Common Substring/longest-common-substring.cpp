@@ -1,54 +1,60 @@
 //{ Driver Code Starts
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
+
 // } Driver Code Ends
-class Solution{
-    public:
+class Solution {
+  public:
+  int mx =0;
+    int dp[1001][1001];
     
-  int ans=0;
-    int solve(string&s,string &str,int p1,int p2,vector<vector<int>>&v){
-        if(p1==s.size()||p2==str.size()){
+    int solve(int i  , int j  , string &a , string &b){
+        
+        if(i >= a.size() || j >= b.size()){
             return 0;
         }
-        if(v[p1][p2]!=-1){
-            return v[p1][p2];
+        if(dp[i][j] != -1) return dp[i][j];
+        
+        int ans =0;
+        
+        if(a[i]== b[j]){
+           
+           ans =  1 + solve( i +1 , j+1 , a , b);
+           mx = max(mx , ans);
+          //return solve( i +1 , j+1 , a , b);
+          
         }
-        int cnt=0;
-        if(s[p1]==str[p2]){
-            cnt=1+solve(s,str,p1+1,p2+1,v);
-            ans=max(cnt,ans);
-        }
-         int ans1=solve(s,str,p1+1,p2,v);
-         int ans2=solve(s,str,p1,p2+1,v);
-         
-        return v[p1][p2]=cnt;
+        int take   = solve(i+1 , j, a , b);
+        int nontake = solve(i , j+1 , a, b);
+        
+        
+        return dp[i][j] = ans;
     }
-    int longestCommonSubstr (string S1, string S2, int n, int m)
-    {
+    int longestCommonSubstr(string a, string b) {
+        
         // your code here
-        vector<vector<int>>v(n+1,vector<int>(m+1,-1));
-        solve(S1,S2,0,0,v);
-        return ans;
+        memset(dp , -1 , sizeof(dp));
+        
+         solve(0  , 0 , a , b);
+         //cout << mx << endl;
+         return mx;
+         
         
     }
 };
 
 //{ Driver Code Starts.
 
-int main()
-{
-    int t; cin >> t;
-    while (t--)
-    {
-        int n, m; cin >> n >> m;
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
         string s1, s2;
         cin >> s1 >> s2;
         Solution ob;
 
-        cout << ob.longestCommonSubstr (s1, s2, n, m) << endl;
+        cout << ob.longestCommonSubstr(s1, s2) << endl;
     }
 }
-// Contributed By: Pranay Bansal
-
 // } Driver Code Ends
