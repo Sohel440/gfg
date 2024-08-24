@@ -1,74 +1,72 @@
 //{ Driver Code Starts
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
 
 // } Driver Code Ends
-class Solution
-{
-    public:
-    //Function to return max value that can be put in knapsack of capacity W.
-    vector<vector<int>> dp ;
-    int solve(int i , int w , int wt[], int val[], int n){
+class Solution {
+  public:
+    // Function to return max value that can be put in knapsack of capacity W.    int solve(int ind , vector<int> &wt , vector<int> &val , int W){
         
-        if( i >= n){
+        if(ind >= val.size()){
             return 0;
-            
         }
-        
-        if(dp[i][w] != -1) return dp[i][w];
-        
-        int take =0;
-        if(wt[i] <= w){
-            take = val[i] + solve(i+1 , w-wt[i] , wt ,val , n);
-            
+        int take=0;
+        if(W>=wt[ind]){
+            take = val[ind]+ solve(ind + 1 , wt , val , W- wt[ind]);
         }
+        int nontake = solve(ind +1 , wt , val , W);
         
-        int nontake = solve(i+1 , w , wt , val , n);
-        
-        
-        return dp[i][w] =max(take  , nontake);
-        
+        return max(take , nontake);
     }
-    int knapSack(int W, int wt[], int val[], int n) 
-    { 
-       // Your code here
-       dp.resize(n+3 , vector<int> (W+3, -1));
-       
-       return solve(0 , W, wt , val , n);
-       
-       
+    int knapSack(int W, vector<int>& wt, vector<int>& val) {
+        // Your code here
+        
+        return solve(0  , wt  , val , W);
+        
     }
 };
 
 //{ Driver Code Starts.
 
-int main()
- {
-    //taking total testcases
+int main() {
+    // taking total testcases
     int t;
-    cin>>t;
-    while(t--)
-    {
-        //reading number of elements and weight
+    cin >> t;
+    cin.ignore();
+    while (t--) {
+        // reading number of elements and weight
         int n, w;
-        cin>>n>>w;
-        
-        int val[n];
-        int wt[n];
-        
-        //inserting the values
-        for(int i=0;i<n;i++)
-            cin>>val[i];
-        
-        //inserting the weights
-        for(int i=0;i<n;i++)
-            cin>>wt[i];
+        vector<int> arr, val, wt, drr;
+        string ip;
+        int number;
+        getline(cin, ip);
+        stringstream ss(ip);
+
+        while (ss >> number) {
+            arr.push_back(number);
+        }
+
+        getline(cin, ip);
+        ss.clear();
+        ss.str(ip);
+
+        while (ss >> number) {
+            val.push_back(number);
+        }
+
+        w = arr[0];
+        n = val.size();
+        getline(cin, ip);
+        ss.clear();
+        ss.str(ip);
+
+        while (ss >> number) {
+            wt.push_back(number);
+        }
         Solution ob;
-        //calling method knapSack()
-        cout<<ob.knapSack(w, wt, val, n)<<endl;
-        
+        cout << ob.knapSack(w, wt, val) << endl;
     }
-	return 0;
+    return 0;
 }
 // } Driver Code Ends
