@@ -7,23 +7,41 @@ using namespace std;
 class Solution {
   public: 
     /*You are required to complete this method */
-   void solve(vector<int> &arr , vector<int> &ls){
-    stack<int> st;
-    for(int i = 0; i < arr.size(); i++){
-        while(!st.empty() && st.top() >= arr[i]){
-            st.pop();
+    void solve(vector<int> &arr , vector<int> &ls){
+        
+        stack<int> st;
+        for(int i =0 ; i < arr.size(); i++){
+            if(i==0){
+                ls[i]=0;
+                st.push(arr[i]);
+                continue;
+            }
+            
+            
+            while(!st.empty() && st.top() >= arr[i]){
+                st.pop();
+            }
+            
+            if(!st.empty()){
+                ls[i]= st.top();
+                st.push(arr[i]);
+                
+            }else{
+                
+                ls[i]=0;
+                st.push(arr[i]);
+                
+            }
+            
+            
         }
         
-        if(!st.empty()){
-            ls[i] = st.top();
-        } else {
-            ls[i] = 0;
-        }
         
-        st.push(arr[i]);
+        // for(auto tt: ls){
+        //     cout << tt << " ";
+        // }
+        // cout << endl;
     }
-}
-
     int findMaxDiff(vector<int> &arr) {
         // Your code here
         vector<int> ls(arr.size() , 0);
@@ -43,6 +61,7 @@ class Solution {
         return mx;
     }
 };
+
 
 //{ Driver Code Starts.
 int main() {
