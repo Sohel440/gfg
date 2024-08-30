@@ -7,14 +7,14 @@ using namespace std;
 // } Driver Code Ends
 // User function Template for C++
 
-class Solution{
-public:
 
+
+class Solution {
+public:
     vector<vector<int>> ans;
     
-    bool isok(int i ,int  j , vector<vector<int>> & b , vector<vector<bool>> &vis){
-        
-    int row = i;
+    bool isok(int i, int j, int n, vector<vector<int>> &vis) {
+        int row = i;
     int col = j;
 
     // Check this row on the left side
@@ -39,7 +39,7 @@ public:
     col = j;
 
     // Check lower diagonal on the left side
-    while (col >= 0 && row <= b.size()-1) {
+    while (col >= 0 && row <=n-1) {
         if (vis[row][col]) {
             return false;
         }
@@ -48,54 +48,35 @@ public:
     }
 
     return true;
-        
-        
     }
-    void solve( int j , int n ,vector<vector<int>>& b,vector<int> &temp , vector<vector<bool>> &vis){
-        if(j >= n){
-            
+
+    void solve(int j, int n, vector<vector<int>> &vis, vector<int> &temp) {
+        if (j >= n) {
             ans.push_back(temp);
             return;
-            
         }
-        for(int k = 0 ; k < n ; k++){
-            
-            if(isok(k, j, b   , vis)){
-                
-            vis[k][j] = true;
-            temp.push_back(k+1);
-            
-            solve(j+1 , n , b ,temp, vis);
-            
-            temp.pop_back();
-            vis[k][j] = false;
-            
+
+        for (int k = 0; k < n; k++) {
+            if (isok(k, j, n, vis)) {
+                vis[k][j] = 1;
+                temp.push_back(k + 1);
+
+                solve(j + 1, n, vis, temp);
+
+                vis[k][j] = 0;
+                temp.pop_back();
+            }
         }
-            
-        }
-        
-        
     }
+
     vector<vector<int>> nQueen(int n) {
-        // code here
-        vector<vector<int>> b(n , vector<int> (n , 0));
-        vector<vector<bool>> vis(n , vector<bool> (n , false));
+        vector<vector<int>> vis(n, vector<int>(n, 0));
         vector<int> temp;
-        solve( 0 , n , b,temp ,  vis);
-        set<vector<int>> st;
-        for(auto it : ans){
-            st.insert(it);
-        }
-        
-        ans.clear();
-        
-        for(auto i : st){
-            ans.push_back(i);
-        }
+        solve(0, n, vis, temp);
         return ans;
-        
     }
 };
+
 
 //{ Driver Code Starts.
 
