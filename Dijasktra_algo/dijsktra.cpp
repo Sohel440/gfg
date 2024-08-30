@@ -12,14 +12,14 @@ class Solution
        unordered_map<ll, vector<pair<ll, ll>>> adj; //u -> (v, wt)
 
         for(vector<int>& edge : edges) {
-            if(edge[2] != -1) {
+           
                 int u  = edge[0];
                 int v  = edge[1];
                 int wt = edge[2];
 
                 adj[u].push_back({v, wt});
                 adj[v].push_back({u, wt});
-            }
+            
         }
 
         priority_queue<P, vector<P>, greater<P>> pq;
