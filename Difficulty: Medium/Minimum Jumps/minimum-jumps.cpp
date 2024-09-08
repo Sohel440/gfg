@@ -30,17 +30,17 @@ class Solution {
         int newind = ind;
         int mx = -1;
         
-        // Find the index with the farthest reachable position within the current jump range
-        for (int i = ind + 1; i <= newn && i < n; ++i) {
-            if (i + arr[i] > mx) {  // Maximizing the next reachable index
+       
+        for (int i = ind + 1; i <= min(n , newn); ++i) {
+            if (i + arr[i] > mx) {  
                 mx = i + arr[i];
                 newind = i;
             }
         }
         
-        if (newind == ind) {
-            return -1;  // If no further progress is possible, return -1
-        }
+        if (newind == ind) { /// for zero case
+            return -1;  
+        } 
         
         ind = newind;
         a.push_back(ind);
