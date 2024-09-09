@@ -6,56 +6,47 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    
-    vector<int> ans;
-    void solve(int i , int j , int n  , int m , vector<vector<int>> &mat){
-        if (i >= n || j >= m) {
-        return;
-    }
-        int pi = i;
+  vector<int> ans;
+    void solve(int i , int j ,int n  , int m , vector<vector<int> > &mat){
+        if(i >=n || j >= m)return;
         
-        int pj = j;
-        int s = i;
-        int e = j;
+        int row = i;
+        int col =j;
         
-        while(e < m ){
-            ans.push_back(mat[s][e]);
-            e++;
+        while(col < m ){
+            ans.push_back(mat[row][col]);
+            col++;
+        }
+        col--;
+        row++;
+        if (row >= n) return;  // Check boundary condition
+        
+        while(row < n ){
+            ans.push_back(mat[row][col]);
+            row++;
+        }
+        row--;
+        col--;
+        if (col < j) return; 
+        
+        while(col >= j){
+            ans.push_back(mat[row][col]);
+            col--;
+        }
+        
+        col++;
+        row--;
+         if (col >= m) return; 
+         
+        while(row > i ){
+            ans.push_back(mat[row][col]);
+            row--;
             
         }
-        
-        s = i+1;
-        
-       // cout << e << endl;
-        while(s < n){
-            ans.push_back(mat[s][m-1]);
-            s++;
-        }
+         if (row < i) return; 
         
         
-  
-        if(n-1 != i){
-            e = m-2;
-        while(e >= j ){
-            ans.push_back(mat[n-1][e]);
-            e--;
-            
-        }
-        }
-        
-        if(m-1 != j){
-        s = n-2;
-        while(s > i){
-            ans.push_back(mat[s][j]);
-            s--;
-            
-        }
-        }
-        
-        solve(i+ 1 , j+ 1 , n-1 , m-1 , mat);
-        
-        
-        
+        solve(i+1 , j+1 , n-1 ,m-1 , mat);
         
         
     }
@@ -64,14 +55,8 @@ class Solution {
         int n = matrix.size();
         int m = matrix[0].size();
         
-        
-        solve(0 ,0, n,m, matrix);
-        
-        // for(auto tt : ans){
-        //     cout << tt << " ";
-        // }
+        solve(0  , 0, n , m ,matrix);
         return ans;
-        
         
     }
 };
