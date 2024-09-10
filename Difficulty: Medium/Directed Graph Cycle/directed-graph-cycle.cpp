@@ -12,14 +12,14 @@ class Solution {
         curr[src] = true;
         
         for(auto &v : adj[src]){
-            
-            if(!vis[v] && isCycle(adj , v , vis , curr)){
-                return true;
-            }
-            else if(curr[v] == true){
+             if(curr[v] == true){
                 return true;
                 
             }
+            if(!vis[v] && isCycle(adj , v , vis , curr)){
+                return true;
+            }
+           
         }
         curr[src] = false;
         return false;
@@ -44,6 +44,7 @@ class Solution {
         return false;
     }
 };
+
 
 //{ Driver Code Starts.
 
