@@ -131,30 +131,27 @@ class Solution {
     
     // Function to convert binary tree to doubly linked list
     Node* bToDLL(Node* root) {
-        if (!root) return nullptr;  // Edge case: If the tree is empty
-
-        // Perform in-order traversal to collect the node values in sorted order
+        if (!root) return nullptr;  
+        
         solve(root);
 
-        // Create a dummy node to simplify the creation of the linked list
+        
         Node* dummy = new Node(0);
         Node* p = dummy;
-        
-        // Construct the doubly linked list from the in-order traversal
+         
         for (int i = 0; i < ans.size(); i++) {
-            p->right = new Node(ans[i]);  // Create new node and link it to the right
-            p->right->left = p;  // Link back to the previous node
-            p = p->right;  // Move to the next node
+            p->right = new Node(ans[i]);  
+            p->right->left = p; 
+            p = p->right; 
         }
-
-        // The head of the doubly linked list will be the node after the dummy
-        Node* head = dummy->right;
-        if (head) head->left = nullptr;  // Set the left pointer of the head to nullptr
         
-        // Delete the dummy node as it's no longer needed
+        Node * head= dummy ->right;
+        if(head)  head->left =nullptr;
+        
         delete dummy;
         
-        return head;  // Return the head of the doubly linked list
+        root=head;
+        
     }
 };
 
