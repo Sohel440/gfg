@@ -85,7 +85,7 @@ class Solution {
             ok = true;    // Mark that we found the key and will skip this node
             mp[temp]++;   // Mark the node as visited
             temp = temp->next;  // Move to the next node and skip this one
-            if (temp == head) break;  // Stop if we come back to the head (circular list)
+           // if (temp == head) break;  // Stop if we come back to the head (circular list)
             continue;
         }
 
