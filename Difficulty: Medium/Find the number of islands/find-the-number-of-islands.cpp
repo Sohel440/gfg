@@ -6,56 +6,49 @@ using namespace std;
 class Solution {
   public:
     // Function to find the number of islands.
-  bool boundary(int i, int j, vector<vector<char>>& mat) {
-    return i >= 0 && i < mat.size() && j >= 0 && j < mat[0].size() && mat[i][j] == '1';
-}
-
-void dfs(vector<vector<char>>& grid, int i, int j) {
-    if (!boundary(i, j, grid)) return;
-
-    // Mark the cell as visited
-    grid[i][j] = '0';
-    
-    // Explore the neighboring cells
-    if (boundary(i, j - 1, grid)) {
-        dfs(grid, i, j - 1);
+    bool ok(int i , int j , vector<vector<char>> &grid){
+        return i >=0 && j >= 0 && i < grid.size() && j < grid[0].size() && grid[i][j]=='1';
     }
-    if (boundary(i, j + 1, grid)) {
-        dfs(grid, i, j + 1);
+    void dfs(int i , int j  , vector<vector<char>> &grid){
+        
+        grid[i][j] = '0';
+        
+        if(ok(i , j+1 , grid)) dfs(i , j+1 , grid);  // right
+        
+        if(ok(i , j-1 , grid)) dfs(i , j-1 , grid); //left
+        
+        if(ok(i+1 ,j , grid)) dfs(i+1 ,j , grid);//down
+        
+        if(ok(i-1 , j , grid)) dfs(i-1 , j , grid);//up
+        
+        if(ok(i+ 1 , j-1  , grid)) dfs(i+ 1 , j-1  , grid);
+        
+        if(ok(i+1 , j+1 , grid)) dfs(i+1 , j+1 , grid); // top corner 
+        
+        if(ok(i-1 , j+1 , grid)) dfs(i-1 , j+1 , grid); // 
+        
+        if(ok(i-1, j-1 , grid)) dfs(i-1, j-1 , grid); // bott left
+        
+        
     }
-    if (boundary(i - 1, j, grid)) {
-        dfs(grid, i - 1, j);
-    }
-    if (boundary(i + 1, j, grid)) {
-        dfs(grid, i + 1, j);
-    }
-     if (boundary(i + 1, j+1, grid)) {
-        dfs(grid, i + 1, j+1);
-    }
-     if (boundary(i - 1, j-1, grid)) {
-        dfs(grid, i - 1, j-1);
-    }
-     if (boundary(i + 1, j-1, grid)) {
-        dfs(grid, i + 1, j-1);
-    }
-     if (boundary(i -1 , j+1, grid)) {
-        dfs(grid, i - 1, j+1);
-    }
-    
-}
-
-int numIslands(vector<vector<char>>& grid) {
-    int cnt = 0;
-    for (int i = 0; i < grid.size(); i++) {
-        for (int j = 0; j < grid[0].size(); j++) {
-            if (grid[i][j] == '1') {
-                cnt++;
-                dfs(grid, i, j);
+    int numIslands(vector<vector<char>>& grid) {
+        // Code here
+        int n = grid.size();
+        int m = grid[0].size();
+        
+        int cnt =0;
+        for(int i = 0; i < n; i++){
+            for(int j = 0 ; j <m ; j++){
+                
+                if(grid[i][j] == '1'){
+                    cnt++;
+                    dfs(i  , j, grid);
+                }
             }
         }
+        
+        return cnt;
     }
-    return cnt;
-}
 };
 
 //{ Driver Code Starts.
