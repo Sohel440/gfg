@@ -9,18 +9,30 @@ class Solution {
   public:
     bool checkSorted(vector<int> &arr) {
         // code here.
-        int k=2;
-        for(int i=0 ; i<arr.size() ; i++){
-             if(arr[i] != i+1){
+        if(is_sorted(begin(arr), end(arr))){
+            return true;
+        }
+        int k = 2;
+        int ind =1;
+        unordered_map<int,int>mp;
+        for(int i = 0;i < arr.size();i++){
+            mp[arr[i]] = i;
+        }
+        
+        for(int i = 0 ; i < arr.size(); i++){
+            if(k ==0) break;
+            if(arr[i] != i+1){
+                swap(arr[i] , arr[mp[i+1] ]);
                 k--;
-                swap(arr[i] , arr[arr[i] -1]);
-                if(k==-1) return false;
             }
         }
         
-        if(k!=0 && k!=2) return false;
-        if(arr[0] != 1) return false;
-        return true;
+        if(is_sorted(begin(arr), end(arr)) && k ==0){
+            return true;
+        }
+        
+        return false;
+        
     }
 };
 
