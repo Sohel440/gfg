@@ -1,5 +1,4 @@
 //{ Driver Code Starts
-// Initial Template for C++
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -10,51 +9,61 @@ using namespace std;
 class Solution {
   public:
     // Function to find maximum of each subarray of size k.
-    vector<int> max_of_subarrays(int k, vector<int> &arr) {
-        // your code here
-        vector<int>ans;
-        priority_queue<pair<int,int>>pq;
-        for(int i=0;i<k;i++){
-            pq.push({arr[i],i});
-        }
-        ans.push_back(pq.top().first);
-        for(int i=k;i<arr.size();i++){
-            pq.push({arr[i],i});
-            while(pq.top().second <=i-k){
-                pq.pop();
+    vector<int> maxOfSubarrays(vector<int>& nums, int k) {
+        // code here
+        vector<int> res;
+        deque<int> dq;
+
+        int n  = nums.size(); 
+        for(int i = 0 ; i < n ; i++){
+
+            while(!dq.empty() && i - k >= dq.front()){
+                dq.pop_front();
             }
-            ans.push_back(pq.top().first);
+
+            while(!dq.empty() && nums[i] >= nums[dq.back()]){
+                dq.pop_back();
+            }
+
+            dq.push_back(i);
+            if(i>=k-1){
+                res.push_back(nums[dq.front()]);
+            }
         }
-        return ans;
+        return res;
+        
     }
 };
 
 //{ Driver Code Starts.
 
 int main() {
-
     int t;
     cin >> t;
-    cin.ignore();
+    cin.ignore(); // Ignore newline character after t
 
     while (t--) {
-
-        string ks;
-        getline(cin, ks);
-        int k = stoi(ks);
         vector<int> arr;
-        string input;
-        getline(cin, input);
-        stringstream ss(input);
-        int number;
-        while (ss >> number) {
-            arr.push_back(number);
+        int k;
+        string inputLine;
+
+        getline(cin, inputLine); // Read the array input as a line
+        stringstream ss(inputLine);
+        int value;
+        while (ss >> value) {
+            arr.push_back(value);
         }
+
+        cin >> k;
+        cin.ignore(); // Ignore newline character after k input
+
         Solution obj;
-        vector<int> res = obj.max_of_subarrays(k, arr);
+        vector<int> res = obj.maxOfSubarrays(arr, k);
         for (int i = 0; i < res.size(); i++)
             cout << res[i] << " ";
         cout << endl;
+        cout << "~"
+             << "\n";
     }
 
     return 0;
