@@ -4,36 +4,43 @@ using namespace std;
 
 
 // } Driver Code Ends
-// User function template for C++
 
 class Solution {
   public:
-    // Function to find maximum of each subarray of size k.
-    vector<int> maxOfSubarrays(vector<int>& nums, int k) {
+    vector<int> maxOfSubarrays(vector<int>& arr, int k) {
         // code here
-        vector<int> res;
-        deque<int> dq;
-
-        int n  = nums.size(); 
-        for(int i = 0 ; i < n ; i++){
-
-            while(!dq.empty() && i - k >= dq.front()){
-                dq.pop_front();
+        unordered_map<int,int> mp;
+        set<int> st;
+        vector<int> ans;
+        
+        int  i=0;
+        int j =0;
+        while(j < arr.size()){
+            
+            mp[arr[j]]++;
+            st.insert(arr[j]);
+            
+            if(j - i + 1 == k){
+                
+                int val = *st.rbegin();
+                ans.push_back(val);
+                mp[arr[i]]--;
+                if(mp[arr[i]]==0){
+                    mp.erase(arr[i]);
+                    st.erase(arr[i]);
+                }
+                
+                i++;
+                
             }
-
-            while(!dq.empty() && nums[i] >= nums[dq.back()]){
-                dq.pop_back();
-            }
-
-            dq.push_back(i);
-            if(i>=k-1){
-                res.push_back(nums[dq.front()]);
-            }
+            j++;
+            
         }
-        return res;
+        return ans;
         
     }
 };
+
 
 //{ Driver Code Starts.
 
