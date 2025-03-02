@@ -9,33 +9,33 @@ class Solution {
   public:
     vector<int> maxOfSubarrays(vector<int>& arr, int k) {
         // code here
-        unordered_map<int,int> mp;
+        unordered_map<int ,int >mp;
         set<int> st;
+        
+        int i =0;
+        int j =0;
         vector<int> ans;
         
-        int  i=0;
-        int j =0;
         while(j < arr.size()){
             
             mp[arr[j]]++;
             st.insert(arr[j]);
             
-            if(j - i + 1 == k){
+            if(j-i+1 == k){
                 
-                int val = *st.rbegin();
-                ans.push_back(val);
+                ans.push_back(*st.rbegin());
                 mp[arr[i]]--;
-                if(mp[arr[i]]==0){
+                if(mp[arr[i]] == 0){
                     mp.erase(arr[i]);
                     st.erase(arr[i]);
                 }
-                
                 i++;
                 
             }
             j++;
             
         }
+        
         return ans;
         
     }
