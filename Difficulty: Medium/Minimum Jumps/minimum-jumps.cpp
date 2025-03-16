@@ -4,52 +4,36 @@ using namespace std;
 
 
 // } Driver Code Ends
-// Function to return minimum number of jumps to end of array
 
 class Solution {
   public:
-  int minJumps(vector<int>& arr) {
-    // Handle edge case where first element is 0
-    if (arr[0] == 0 && arr.size() > 1) {
-        return -1;
-    }
     
-    int ind = 0;
-    int n = arr.size();
-    vector<int> a;
-    a.push_back(ind);
-    
-    while (ind < n - 1) {
-        // If we can jump directly to or beyond the last index
-        if (ind + arr[ind] >= n - 1) {
-            a.push_back(n - 1);
-            break;
+    int dp[10005];
+    int solve(int ind , vector<int> &arr){
+        if(ind == arr.size()-1) return 0;
+        if(ind >=arr.size()) return 1e7;
+        
+        if(dp[ind] != -1) return dp[ind];
+        
+        int ans = 1e7;
+        
+        for(int i = 1 ; i <= arr[ind] ; i++){
+            ans = min(ans , 1 + solve(ind + i , arr));
         }
-        
-        int newn = ind + arr[ind];
-        int newind = ind;
-        int mx = -1;
-        
-       
-        for (int i = ind + 1; i <= min(n , newn); ++i) {
-            if (i + arr[i] > mx) {  
-                mx = i + arr[i];
-                newind = i;
-            }
-        }
-        
-        if (newind == ind) { /// for zero case
-            return -1;  
-        } 
-        
-        ind = newind;
-        a.push_back(ind);
+        return dp[ind] = ans;
     }
-    
-    return a.size() - 1;  // The number of jumps taken is the size of the jump path minus 1
-}
-
+    int minJumps(vector<int>& arr) {
+        // code here
+        memset(dp ,-1, sizeof(dp));
+        
+        int ans = solve(0 , arr);
+        if(ans == 1e7) return -1;
+        return ans;
+        
+        
+    }
 };
+
 
 
 //{ Driver Code Starts.
@@ -70,7 +54,7 @@ int main() {
             arr.push_back(number);
         }
         Solution obj;
-        cout << obj.minJumps(arr) << endl;
+        cout << obj.minJumps(arr) << endl << "~\n";
     }
     return 0;
 }
