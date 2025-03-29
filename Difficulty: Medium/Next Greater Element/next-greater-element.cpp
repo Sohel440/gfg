@@ -4,29 +4,34 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
     // Function to find the next greater element for each element of the array.
     vector<int> nextLargerElement(vector<int>& arr) {
         // code here
+        int n = arr.size();
+        vector<int> nxt(n ,-1);
         stack<int> st;
-        vector<int> ans(arr.size(), -1);
         
-        for(int i = 0; i < arr.size(); i++){
+        for(int i = 0 ; i < n ; i++){
             
             while(!st.empty() && arr[st.top()] < arr[i]){
-                ans[st.top()] = arr[i];
+                nxt[st.top()] = i;
                 st.pop();
-                
             }
             st.push(i);
+        }
+      
+        for(int i = 0 ; i < n ; i++){
+            if(nxt[i] !=-1) nxt[i] = arr[nxt[i]];
             
         }
-        
-        return ans;
-        
+         
+        return nxt;
     }
 };
+
 
 //{ Driver Code Starts.
 
