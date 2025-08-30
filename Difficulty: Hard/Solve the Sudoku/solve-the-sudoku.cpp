@@ -1,135 +1,66 @@
-//{ Driver Code Starts
-#include <bits/stdc++.h>
-using namespace std;
-// UNASSIGNED is used for empty cells in sudoku grid 
-#define UNASSIGNED 0  
+class Solution {
+  public:
+    // Function to find a solved Sudoku.
+    bool isValid(int row , int col , int num ,vector<vector<int>>& board ){
 
-// N is used for the size of Sudoku grid.  
-// Size will be NxN  
-#define N 9  
+        for(int x  = 0 ; x <=8 ; x++){
+            if(board[row][x]== num)return false;
+        }
+        for(int x  = 0 ; x <=8 ; x++){
+            if(board[x][col]== num)return false;
+        }
 
+        int startRow = row -(row % 3) , startCol= col - (col%3);
+        set<char> st;
+        for(int i = 0 ; i < 3 ; i++){
+            for(int j = 0 ; j <  3 ; j++){
+               if(board[i+startRow][j+startCol] == num) return false;
+            }
+        }
 
-// } Driver Code Ends
-class Solution 
-{
-    public:
-    //Function to find a solved Sudoku. 
-    bool ok(int i , int j , int num , int grid[N][N]){
-        
-       
-       int row =i;
-       int col = j;
-       
-       for(int x =0 ; x < 9 ; x++){
-           if(grid[row][x] == num){
-               return false;
-           }
-       }
-       for(int x =0 ; x < 9 ; x++){
-           if(grid[x][col] == num){
-               return false;
-           }
-       }
-       
-       
-       int st = row - row% 3;
-       int en = col - col% 3;
-       
-       for(int p = 0 ; p< 3 ; p++){
-           for(int q = 0 ; q < 3 ; q++){
-               if(grid[p+st][q+en] == num){
-                   return false;
-               }
-           }
-       }
-       
-       return true;
-       
-       
+        return true;
     }
-    
-    bool solve(int row , int col , int grid[N][N]){
-        
-        if(col >= N){
-            
+    bool sodukuSolve(int row , int col ,vector<vector<int>>& board){
+        int n = board.size();
+        if(row == n-1 && col == n){
+            return true;
+        }
+
+        if(col == n){
             row++;
             col =0;
-            if(row >= N){
-                return true;
-                
-            }
         }
-        if(grid[row][col]> 0){
-            return solve(row  , col+1 , grid);
+
+
+        if(board[row][col] !=0){
+            return sodukuSolve(row , col+1 , board);
         }
-        
-        for(int val = 1 ; val <= 9 ; val++){
-            
-            if(ok(row , col , val , grid)){
-                
-                grid[row][col]=val;;
-                
-                if(solve(row , col+1 , grid)){
+
+        for(int num = 1 ; num <= 9 ; num++){
+
+            if(isValid(row  , col ,num , board)){
+                board[row][col] = num;
+              
+                if(sodukuSolve(row , col +1 , board)){
                     return true;
                 }
+                board[row][col] = 0;
             }
-            grid[row][col]=0;
-            
         }
-        
+
         return false;
-        
-        
-    }
-    bool SolveSudoku(int grid[N][N])  
-    { 
-        // Your code here
-        
-       return  solve(0 ,0 , grid);
-        
-        
-      
     }
     
-    
-    //Function to print grids of the Sudoku.
-    void printGrid (int grid[N][N]) 
-    {
-        // Your code here 
-        for(int i = 0 ; i < N ; i++){
-            for(int j = 0 ;j < N ; j++){
-                cout << grid[i][j]<< " ";
-            }
-           // cout << endl;
-        }
+    void solveSudoku(vector<vector<int>> &mat) {
+        // code here
+        sodukuSolve(0, 0 , mat);
         
+        // for(auto t: mat){
+        //     for(auto tt : t){
+        //         cout << tt << " ";
+        //     }
+        //     cout << endl;
+        // }
         
     }
 };
-
-//{ Driver Code Starts.
-
-int main() {
-	int t;
-	cin>>t;
-	while(t--)
-	{
-		int grid[N][N];
-		
-		for(int i=0;i<9;i++)
-		    for(int j=0;j<9;j++)
-		        cin>>grid[i][j];
-		        
-		Solution ob;
-		
-		if (ob.SolveSudoku(grid) == true)  
-            ob.printGrid(grid);  
-        else
-            cout << "No solution exists";  
-        
-        cout<<endl;
-	}
-	
-	return 0;
-}
-// } Driver Code Ends
