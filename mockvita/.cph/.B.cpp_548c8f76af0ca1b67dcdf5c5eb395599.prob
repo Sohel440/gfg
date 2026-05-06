@@ -1,0 +1,1 @@
+{"name":"Local: B","url":"c:\\Users\\hp\\Desktop\\my_practice\\mockvita\\B.cpp","tests":[{"id":1729345378876,"input":"niveditha\nlavekdahnita\n3 5","output":""},{"id":1729346255839,"input":"abcdef\npafedexycbc\n4 2","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\hp\\Desktop\\my_practice\\mockvita\\B.cpp","group":"local","local":true}
